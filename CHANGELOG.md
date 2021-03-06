@@ -7,6 +7,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [0.0.2] - add playlist
 ### Added
 - this changelog
+- a playlist to the player
 
 ## [0.0.1] - add basic buttons
 ### Added
