@@ -28,17 +28,13 @@ class Playlist extends StatelessWidget {
         return ListView(
           children: [
             for (var i = 0; i < sequence.length; i++)
-              Material(
-                color: i == state.currentIndex
-                    ? Theme.of(context).accentColor
-                    : null,
-                child: ListTile(
-                  leading: Image.network(sequence[i].tag.artwork),
-                  title: Text(sequence[i].tag.title),
-                  onTap: () {
-                    _audioPlayer.seek(Duration.zero, index: i);
-                  },
-                ),
+              ListTile(
+                selected: i == state.currentIndex,
+                leading: Image.network(sequence[i].tag.artwork),
+                title: Text(sequence[i].tag.title),
+                onTap: () {
+                  _audioPlayer.seek(Duration.zero, index: i);
+                },
               ),
           ],
         );
