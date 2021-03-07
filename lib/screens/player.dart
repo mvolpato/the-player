@@ -13,6 +13,10 @@ import 'package:music_player/domain/audio_metadata.dart';
 import 'package:music_player/screens/commons/player_buttons.dart';
 import 'package:music_player/screens/commons/playlist.dart';
 
+/// An audio player.
+///
+/// At the bottom of the page there is [PlayerButtons], while the rest of the
+/// page is filled with a [PLaylist] widget.
 class Player extends StatefulWidget {
   @override
   _PlayerState createState() => _PlayerState();
@@ -26,6 +30,8 @@ class _PlayerState extends State<Player> {
     super.initState();
     _audioPlayer = AudioPlayer();
 
+    // Hardcoded audio sources
+    // TODO: Get sources with a network call, or at least move to a separated file.
     _audioPlayer
         .setAudioSource(
       ConcatenatingAudioSource(

@@ -10,6 +10,10 @@
 import 'package:flutter/material.dart';
 import 'package:just_audio/just_audio.dart';
 
+/// A list of tiles showing all the audio sources added to the audio player.
+///
+/// Audio sources are displayed with a `ListTile` with a leading image (the
+/// artwork), and the title of the audio source.
 class Playlist extends StatelessWidget {
   const Playlist(this._audioPlayer, {Key key}) : super(key: key);
 
