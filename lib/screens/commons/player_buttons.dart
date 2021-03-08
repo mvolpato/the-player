@@ -63,7 +63,7 @@ class PlayerButtons extends StatelessWidget {
     );
   }
 
-  /// A button that play or pause the audio.
+  /// A button that plays or pauses the audio.
   ///
   /// If the audio is playing, a pause button is shown.
   /// If the audio has finished playing, a restart button is shown.

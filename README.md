@@ -16,4 +16,7 @@ the package [just_audio](https://pub.dev/packages/just_audio).
 
 ### Part 2: Improve repository and add a playlist
 
-TODO
+In the [second part](https://ishouldgotosleep.com/tutorials/music-app/repository-management-and-add-playlist/)
+we improve the repository and we add a playlist to the app.
+
+<img alt="The UI at the end of the first part" src="https://ishouldgotosleep.com/assets/images/blog/music-app/playlist.png" width="200" height="433">
