@@ -10,6 +10,9 @@
 import 'package:flutter/material.dart';
 import 'package:just_audio/just_audio.dart';
 
+/// A `Row` of buttons that interact with audio.
+///
+/// The order is: shuffle, previous, play/pause/restart, next, repeat.
 class PlayerButtons extends StatelessWidget {
   const PlayerButtons(this._audioPlayer, {Key key}) : super(key: key);
 
@@ -20,18 +23,21 @@ class PlayerButtons extends StatelessWidget {
     return Row(
       mainAxisSize: MainAxisSize.min,
       children: [
+        // Shuffle
         StreamBuilder<bool>(
           stream: _audioPlayer.shuffleModeEnabledStream,
           builder: (context, snapshot) {
             return _shuffleButton(context, snapshot.data ?? false);
           },
         ),
+        // Previous
         StreamBuilder<SequenceState>(
           stream: _audioPlayer.sequenceStateStream,
           builder: (_, __) {
             return _previousButton();
           },
         ),
+        // Play/pause/restart
         StreamBuilder<PlayerState>(
           stream: _audioPlayer.playerStateStream,
           builder: (_, snapshot) {
@@ -39,12 +45,14 @@ class PlayerButtons extends StatelessWidget {
             return _playPauseButton(playerState);
           },
         ),
+        // Next
         StreamBuilder<SequenceState>(
           stream: _audioPlayer.sequenceStateStream,
           builder: (_, __) {
             return _nextButton();
           },
         ),
+        // Repeat
         StreamBuilder<LoopMode>(
           stream: _audioPlayer.loopModeStream,
           builder: (context, snapshot) {
@@ -55,6 +63,12 @@ class PlayerButtons extends StatelessWidget {
     );
   }
 
+  /// A button that play or pause the audio.
+  ///
+  /// If the audio is playing, a pause button is shown.
+  /// If the audio has finished playing, a restart button is shown.
+  /// If the audio is paused, or not started yet, a play button is shown.
+  /// If the audio is loading, a progress indicator is shown.
   Widget _playPauseButton(PlayerState playerState) {
     final processingState = playerState?.processingState;
     if (processingState == ProcessingState.loading ||
@@ -87,6 +101,7 @@ class PlayerButtons extends StatelessWidget {
     }
   }
 
+  /// A shuffle button. Tapping it will either enabled or disable shuffle mode.
   Widget _shuffleButton(BuildContext context, bool isEnabled) {
     return IconButton(
       icon: isEnabled
@@ -102,6 +117,7 @@ class PlayerButtons extends StatelessWidget {
     );
   }
 
+  /// A previous button. Tapping it will seek to the previous audio in the list.
   Widget _previousButton() {
     return IconButton(
       icon: Icon(Icons.skip_previous),
@@ -109,6 +125,7 @@ class PlayerButtons extends StatelessWidget {
     );
   }
 
+  /// A next button. Tapping it will seek to the next audio in the list.
   Widget _nextButton() {
     return IconButton(
       icon: Icon(Icons.skip_next),
@@ -116,6 +133,8 @@ class PlayerButtons extends StatelessWidget {
     );
   }
 
+  /// A repeat button. Tapping it will cycle through not repeating, repeating
+  /// the entire list, or repeat the current audio.
   Widget _repeatButton(BuildContext context, LoopMode loopMode) {
     final icons = [
       Icon(Icons.repeat),

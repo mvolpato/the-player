@@ -1,16 +1,19 @@
-# music_player
+# Music Player: create a simple Flutter music player app
 
-A new Flutter project.
+This is a [Flutter](https://flutter.dev) project used during a [series](https://ishouldgotosleep.com/tutorials/music-app/simple-flutter-music-player-app/) of articles
+on [I should go to sleep](https://ishouldgotosleep.com).
 
-## Getting Started
 
-This project is a starting point for a Flutter application.
+## Articles
 
-A few resources to get you started if this is your first Flutter project:
+### Part 1: create the project and add basic buttons
 
-- [Lab: Write your first Flutter app](https://flutter.dev/docs/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://flutter.dev/docs/cookbook)
+In the [first part](https://ishouldgotosleep.com/tutorials/music-app/simple-flutter-music-player-app/) we 
+create the Flutter project and play some music from the Internet by using 
+the package [just_audio](https://pub.dev/packages/just_audio).
 
-For help getting started with Flutter, view our
-[online documentation](https://flutter.dev/docs), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+<img alt="The UI at the end of the first part" src="https://ishouldgotosleep.com/assets/images/blog/music-app/more-buttons.png" width="200" height="433">
+
+### Part 2: Improve repository and add a playlist
+
+TODO
