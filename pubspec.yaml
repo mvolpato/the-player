@@ -18,14 +18,14 @@ publish_to: 'none' # Remove this line if you wish to publish to pub.dev
 version: 0.0.2+1
 
 environment:
-  sdk: ">=2.7.0 <3.0.0"
+  sdk: '>=2.12.0 <3.0.0'
 
 dependencies:
   flutter:
     sdk: flutter
 
   # Play music files
-  just_audio: ^0.6.13
+  just_audio: ^0.7.1
 
 dev_dependencies:
   flutter_test:

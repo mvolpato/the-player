@@ -20,3 +20,9 @@ In the [second part](https://ishouldgotosleep.com/tutorials/music-app/repository
 we improve the repository and we add a playlist to the app.
 
 <img alt="The UI at the end of the first part" src="https://ishouldgotosleep.com/assets/images/blog/music-app/playlist.png" width="200" height="433">
+
+### Part 3: Migrate to Flutter 2, sound null safety, and select a license
+
+The [third part](https://ishouldgotosleep.com/tutorials/music-app/update-flutter-2-null-safety-add-license/)
+is all about upgrading Flutter and migrate to sound null safety. We also select a 
+license for the project.

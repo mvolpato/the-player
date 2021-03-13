@@ -15,5 +15,7 @@ class AudioMetadata {
   /// URL to an image representing this audio source.
   final String artwork;
 
-  AudioMetadata({this.title, this.artwork});
+  // TODO change placeholder
+  AudioMetadata(
+      {required this.title, this.artwork = 'https://via.placeholder.com/150'});
 }

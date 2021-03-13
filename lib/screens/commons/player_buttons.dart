@@ -14,7 +14,7 @@ import 'package:just_audio/just_audio.dart';
 ///
 /// The order is: shuffle, previous, play/pause/restart, next, repeat.
 class PlayerButtons extends StatelessWidget {
-  const PlayerButtons(this._audioPlayer, {Key key}) : super(key: key);
+  const PlayerButtons(this._audioPlayer, {Key? key}) : super(key: key);
 
   final AudioPlayer _audioPlayer;
 
@@ -31,7 +31,7 @@ class PlayerButtons extends StatelessWidget {
           },
         ),
         // Previous
-        StreamBuilder<SequenceState>(
+        StreamBuilder<SequenceState?>(
           stream: _audioPlayer.sequenceStateStream,
           builder: (_, __) {
             return _previousButton();
@@ -46,7 +46,7 @@ class PlayerButtons extends StatelessWidget {
           },
         ),
         // Next
-        StreamBuilder<SequenceState>(
+        StreamBuilder<SequenceState?>(
           stream: _audioPlayer.sequenceStateStream,
           builder: (_, __) {
             return _nextButton();
@@ -69,7 +69,7 @@ class PlayerButtons extends StatelessWidget {
   /// If the audio has finished playing, a restart button is shown.
   /// If the audio is paused, or not started yet, a play button is shown.
   /// If the audio is loading, a progress indicator is shown.
-  Widget _playPauseButton(PlayerState playerState) {
+  Widget _playPauseButton(PlayerState? playerState) {
     final processingState = playerState?.processingState;
     if (processingState == ProcessingState.loading ||
         processingState == ProcessingState.buffering) {
@@ -96,7 +96,7 @@ class PlayerButtons extends StatelessWidget {
         icon: Icon(Icons.replay),
         iconSize: 64.0,
         onPressed: () => _audioPlayer.seek(Duration.zero,
-            index: _audioPlayer.effectiveIndices.first),
+            index: _audioPlayer.effectiveIndices?.first),
       );
     }
   }
