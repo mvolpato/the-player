@@ -13,55 +13,37 @@ import 'package:music_player/domain/audio/audio_metadata.dart';
 import 'package:music_player/domain/playlists/playlist_item.dart';
 import 'package:music_player/screens/commons/player_buttons.dart';
 import 'package:music_player/screens/commons/playlist.dart';
-import 'package:music_player/services/playlists/playlists_service.dart';
-import 'package:provider/provider.dart';
 
 /// An audio player.
 ///
 /// At the bottom of the page there is [PlayerButtons], while the rest of the
 /// page is filled with a [PLaylist] widget.
-class Player extends StatefulWidget {
-  @override
-  _PlayerState createState() => _PlayerState();
-}
+class Player extends StatelessWidget {
+  final AudioPlayer _audioPlayer;
+  final List<PlaylistItem> _playlist;
 
-class _PlayerState extends State<Player> {
-  late AudioPlayer _audioPlayer;
-
-  @override
-  void initState() {
-    super.initState();
-    _audioPlayer = AudioPlayer();
-  }
-
-  @override
-  void dispose() {
-    _audioPlayer.dispose();
-    super.dispose();
+  Player(this._audioPlayer, this._playlist, {Key? key}) : super(key: key) {
+    if (!_audioPlayer.playing) _loadAudioSources(_playlist);
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(),
       body: Center(
         child: SafeArea(
-          child: Consumer<PlaylistsService>(
-            builder: (__, value, _) {
-              _loadAudioSources(value.allItems);
-              return Column(
-                children: [
-                  Expanded(child: Playlist(_audioPlayer)),
-                  PlayerButtons(_audioPlayer),
-                ],
-              );
-            },
+          child: Column(
+            children: [
+              Expanded(child: Playlist(_audioPlayer)),
+              PlayerButtons(_audioPlayer),
+            ],
           ),
         ),
       ),
     );
   }
 
-  // TODO playlist should be dinamically loaded from actions on UI
+  // TODO we should keep track of what we are playing
   void _loadAudioSources(List<PlaylistItem> playlist) {
     _audioPlayer
         .setAudioSource(
