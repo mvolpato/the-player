@@ -62,6 +62,28 @@ class _CategorySelectorState extends State<CategorySelector> {
                             );
                           },
                         ),
+                        ListTile(
+                          title: Text("Inessential"),
+                          onTap: () {
+                            Navigator.of(context).push(
+                              MaterialPageRoute(
+                                builder: (context) => Player(_audioPlayer,
+                                    value.playlists['Inessential']!),
+                              ),
+                            );
+                          },
+                        ),
+                        ListTile(
+                          title: Text("Games"),
+                          onTap: () {
+                            Navigator.of(context).push(
+                              MaterialPageRoute(
+                                builder: (context) => Player(
+                                    _audioPlayer, value.playlists['Games']!),
+                              ),
+                            );
+                          },
+                        ),
                       ],
                     ),
                   ),

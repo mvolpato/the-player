@@ -36,9 +36,24 @@ class HardcodedPlaylistsService implements PlaylistsService {
             "https://scummbar.com/mi2/MI1-CD/01%20-%20Opening%20Themes%20-%20Introduction.mp3")),
   ];
 
+  final _inessential = [
+    PlaylistItem(Author("Brent Simmons", null), "Slow House", null,
+        Uri.parse("asset:///assets/audio/SlowHouse.mp3")),
+    PlaylistItem(Author("Brent Simmons", null), "Vampire’s Run", null,
+        Uri.parse("asset:///assets/audio/VampiresRun.mp3")),
+    PlaylistItem(Author("Brent Simmons", null), "Tie & Suit", null,
+        Uri.parse("asset:///assets/audio/TieSuit2021.mp3")),
+  ];
+
   @override
   List<PlaylistItem> get allItems {
-    return _gameSongs;
+    return []..addAll(_gameSongs)..addAll(_inessential);
+  }
+
+  @override
+  // TODO: implement itemsByAuthor
+  Map<String, List<PlaylistItem>> get playlists {
+    return {'Games': _gameSongs, "Inessential": _inessential};
   }
 
   @override

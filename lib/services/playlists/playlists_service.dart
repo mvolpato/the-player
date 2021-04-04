@@ -12,5 +12,6 @@ import 'package:music_player/domain/playlists/playlist_item.dart';
 
 abstract class PlaylistsService {
   List<PlaylistItem> get allItems;
+  Map<String, List<PlaylistItem>> get playlists;
   Map<Author, List<PlaylistItem>> get itemsByAuthor;
 }

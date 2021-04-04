@@ -53,7 +53,9 @@ class Player extends StatelessWidget {
               (item) => AudioSource.uri(
                 item.itemLocation,
                 tag: AudioMetadata(
-                    title: item.title, artwork: item.artworkUri.toString()),
+                    title: item.title,
+                    artwork: item.artworkUri?.toString() ??
+                        'https://via.placeholder.com/150'),
               ),
             )
             .toList(),
