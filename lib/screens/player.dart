@@ -9,7 +9,6 @@
 
 import 'package:flutter/material.dart';
 import 'package:just_audio/just_audio.dart';
-import 'package:music_player/domain/audio/audio_metadata.dart';
 import 'package:music_player/domain/playlists/playlist_item.dart';
 import 'package:music_player/screens/commons/player_buttons.dart';
 import 'package:music_player/screens/commons/playlist.dart';
@@ -52,10 +51,7 @@ class Player extends StatelessWidget {
             .map(
               (item) => AudioSource.uri(
                 item.itemLocation,
-                tag: AudioMetadata(
-                    title: item.title,
-                    artwork: item.artworkUri?.toString() ??
-                        'https://via.placeholder.com/150'),
+                tag: item,
               ),
             )
             .toList(),

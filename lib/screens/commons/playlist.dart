@@ -31,7 +31,7 @@ class Playlist extends StatelessWidget {
             for (var i = 0; i < sequence.length; i++)
               ListTile(
                 selected: i == state.currentIndex,
-                leading: Image.network(sequence[i].tag.artwork),
+                leading: Image.network(sequence[i].tag.artworkLocation),
                 title: Text(sequence[i].tag.title),
                 onTap: () {
                   _audioPlayer.seek(Duration.zero, index: i);

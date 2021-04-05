@@ -18,15 +18,15 @@ class PlaylistItem {
   final String title;
 
   /// The Uri to an image representing this audio item.
-  final Uri? artworkUri;
+  final String artworkLocation;
 
   /// An Uri at which the audio can be found.
   final Uri itemLocation;
 
-  PlaylistItem(
-    this.author,
-    this.title,
-    this.artworkUri,
-    this.itemLocation,
-  );
+  PlaylistItem({
+    required this.author,
+    required this.title,
+    this.artworkLocation = "https://via.placeholder.com/150",
+    required this.itemLocation,
+  });
 }
