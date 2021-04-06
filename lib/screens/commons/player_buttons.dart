@@ -8,59 +8,60 @@
  */
 
 import 'package:flutter/material.dart';
-import 'package:just_audio/just_audio.dart';
+import 'package:music_player/domain/playlists/playlist_item.dart';
+import 'package:music_player/services/audio/audio_player_service.dart';
+import 'package:provider/provider.dart';
 
 /// A `Row` of buttons that interact with audio.
 ///
 /// The order is: shuffle, previous, play/pause/restart, next, repeat.
 class PlayerButtons extends StatelessWidget {
-  const PlayerButtons(this._audioPlayer, {Key? key}) : super(key: key);
-
-  final AudioPlayer _audioPlayer;
-
   @override
   Widget build(BuildContext context) {
-    return Row(
-      mainAxisSize: MainAxisSize.min,
-      children: [
-        // Shuffle
-        StreamBuilder<bool>(
-          stream: _audioPlayer.shuffleModeEnabledStream,
-          builder: (context, snapshot) {
-            return _shuffleButton(context, snapshot.data ?? false);
-          },
-        ),
-        // Previous
-        StreamBuilder<SequenceState?>(
-          stream: _audioPlayer.sequenceStateStream,
-          builder: (_, __) {
-            return _previousButton();
-          },
-        ),
-        // Play/pause/restart
-        StreamBuilder<PlayerState>(
-          stream: _audioPlayer.playerStateStream,
-          builder: (_, snapshot) {
-            final playerState = snapshot.data;
-            return _playPauseButton(playerState);
-          },
-        ),
-        // Next
-        StreamBuilder<SequenceState?>(
-          stream: _audioPlayer.sequenceStateStream,
-          builder: (_, __) {
-            return _nextButton();
-          },
-        ),
-        // Repeat
-        StreamBuilder<LoopMode>(
-          stream: _audioPlayer.loopModeStream,
-          builder: (context, snapshot) {
-            return _repeatButton(context, snapshot.data ?? LoopMode.off);
-          },
-        ),
-      ],
-    );
+    return Consumer<AudioPlayerService>(builder: (_, player, __) {
+      return Row(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          // Shuffle
+          StreamBuilder<bool>(
+            stream: player.shuffleModeEnabled,
+            builder: (context, snapshot) {
+              return _shuffleButton(context, snapshot.data ?? false, player);
+            },
+          ),
+          // Previous
+          StreamBuilder<List<PlaylistItem>?>(
+            stream: player.currentPlaylist,
+            builder: (_, __) {
+              return _previousButton(player);
+            },
+          ),
+          // Play/pause/restart
+          StreamBuilder<AudioProcessingState>(
+            stream: player.audioProcessingState,
+            builder: (_, snapshot) {
+              final playerState = snapshot.data ?? AudioProcessingState.unknown;
+              return _playPauseButton(playerState, player);
+            },
+          ),
+          // Next
+          StreamBuilder<List<PlaylistItem>?>(
+            stream: player.currentPlaylist,
+            builder: (_, __) {
+              return _nextButton(player);
+            },
+          ),
+          // Repeat
+          StreamBuilder<PlaylistLoopMode>(
+            stream: player.loopMode,
+            builder: (context, snapshot) {
+              return _repeatButton(
+                  context, snapshot.data ?? PlaylistLoopMode.off, player);
+            },
+          ),
+        ],
+      );
+    });
   }
 
   /// A button that plays or pauses the audio.
@@ -69,88 +70,86 @@ class PlayerButtons extends StatelessWidget {
   /// If the audio has finished playing, a restart button is shown.
   /// If the audio is paused, or not started yet, a play button is shown.
   /// If the audio is loading, a progress indicator is shown.
-  Widget _playPauseButton(PlayerState? playerState) {
-    final processingState = playerState?.processingState;
-    if (processingState == ProcessingState.loading ||
-        processingState == ProcessingState.buffering) {
+  Widget _playPauseButton(
+      AudioProcessingState processingState, AudioPlayerService player) {
+    if (processingState == AudioProcessingState.loading ||
+        processingState == AudioProcessingState.buffering) {
       return Container(
         margin: EdgeInsets.all(8.0),
         width: 64.0,
         height: 64.0,
         child: CircularProgressIndicator(),
       );
-    } else if (_audioPlayer.playing != true) {
+    } else if (processingState == AudioProcessingState.ready) {
       return IconButton(
         icon: Icon(Icons.play_arrow),
         iconSize: 64.0,
-        onPressed: _audioPlayer.play,
+        onPressed: player.play,
       );
-    } else if (processingState != ProcessingState.completed) {
+    } else if (processingState != AudioProcessingState.completed) {
       return IconButton(
         icon: Icon(Icons.pause),
         iconSize: 64.0,
-        onPressed: _audioPlayer.pause,
+        onPressed: player.pause,
       );
     } else {
       return IconButton(
         icon: Icon(Icons.replay),
         iconSize: 64.0,
-        onPressed: () => _audioPlayer.seek(Duration.zero,
-            index: _audioPlayer.effectiveIndices?.first),
+        onPressed: () => player.seekToStart(),
       );
     }
   }
 
   /// A shuffle button. Tapping it will either enabled or disable shuffle mode.
-  Widget _shuffleButton(BuildContext context, bool isEnabled) {
+  Widget _shuffleButton(
+      BuildContext context, bool isEnabled, AudioPlayerService player) {
     return IconButton(
       icon: isEnabled
           ? Icon(Icons.shuffle, color: Theme.of(context).accentColor)
           : Icon(Icons.shuffle),
       onPressed: () async {
         final enable = !isEnabled;
-        if (enable) {
-          await _audioPlayer.shuffle();
-        }
-        await _audioPlayer.setShuffleModeEnabled(enable);
+        await player.setShuffleModeEnabled(enable);
       },
     );
   }
 
   /// A previous button. Tapping it will seek to the previous audio in the list.
-  Widget _previousButton() {
+  Widget _previousButton(AudioPlayerService player) {
     return IconButton(
       icon: Icon(Icons.skip_previous),
-      onPressed: _audioPlayer.hasPrevious ? _audioPlayer.seekToPrevious : null,
+      onPressed: player.hasPrevious ? player.seekToPrevious : null,
     );
   }
 
   /// A next button. Tapping it will seek to the next audio in the list.
-  Widget _nextButton() {
+  Widget _nextButton(AudioPlayerService player) {
     return IconButton(
       icon: Icon(Icons.skip_next),
-      onPressed: _audioPlayer.hasNext ? _audioPlayer.seekToNext : null,
+      onPressed: player.hasNext ? player.seekToNext : null,
     );
   }
 
   /// A repeat button. Tapping it will cycle through not repeating, repeating
   /// the entire list, or repeat the current audio.
-  Widget _repeatButton(BuildContext context, LoopMode loopMode) {
+  Widget _repeatButton(BuildContext context, PlaylistLoopMode loopMode,
+      AudioPlayerService player) {
     final icons = [
       Icon(Icons.repeat),
       Icon(Icons.repeat, color: Theme.of(context).accentColor),
       Icon(Icons.repeat_one, color: Theme.of(context).accentColor),
     ];
     const cycleModes = [
-      LoopMode.off,
-      LoopMode.all,
-      LoopMode.one,
+      PlaylistLoopMode.off,
+      PlaylistLoopMode.all,
+      PlaylistLoopMode.one,
     ];
     final index = cycleModes.indexOf(loopMode);
     return IconButton(
       icon: icons[index],
       onPressed: () {
-        _audioPlayer.setLoopMode(
+        player.setLoopMode(
             cycleModes[(cycleModes.indexOf(loopMode) + 1) % cycleModes.length]);
       },
     );

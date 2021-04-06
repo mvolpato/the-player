@@ -9,7 +9,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:music_player/domain/playlists/playlist_item.dart';
-import 'package:music_player/screens/commons/playlist.dart';
+import 'package:music_player/screens/commons/playlist_view.dart';
 import 'package:music_player/screens/commons/player_buttons_container.dart';
 
 /// A screen with a playlist.
@@ -25,7 +25,7 @@ class PlaylistScreen extends StatelessWidget {
       body: Center(
         child: SafeArea(
           child: PlayerButtonsContainer(
-            child: Playlist(_playlist),
+            child: PlaylistView(_playlist),
           ),
         ),
       ),
