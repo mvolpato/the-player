@@ -37,3 +37,13 @@ we improve the repository and we add a playlist to the app.
 The [third part](https://ishouldgotosleep.com/tutorials/music-app/update-flutter-2-null-safety-add-license/)
 is all about upgrading Flutter and migrate to sound null safety. We also select a 
 license for the project.
+
+### Part 4: Add Provider and move hardcoded data
+
+The [fourth part](https://ishouldgotosleep.com/flutter-full-app-4-add-provider-move-hardcoded-data/)
+adds providers and refactors some of the code.
+
+### Part 5: Add a local playlist
+
+The [fifth part](https://ishouldgotosleep.com/flutter-full-app-5-add-a-local-playlist/)
+adds another playlist and fixes a big usability problem.
